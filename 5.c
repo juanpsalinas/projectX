@@ -14,7 +14,7 @@ int main() {
 
     reg f1,f2;
 
-    printf("Introduce valores para el fomulario 1; \n");
+    printf("Introduce valores para el fomulario 2; \n");
     printf("Introduce TU NOMBRE: ");
     fgets(f1.nombre,50,stdin);
 
