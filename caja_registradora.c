@@ -1,192 +1,158 @@
 #include <stdio.h>
-#include <stdlib.h>
-#include <time.h>
 #include <string.h>
-#define N 50
+#include <stdlib.h>
+
+#define MAX_PRODUCTOS 3
+#define LIMPIAR    \
+    system("cls"); \
+    system("pause");
 
 typedef struct{
-    char nombre_lib[N];
-    char autor[N];
-    int lleno_lib;
-}libro;
+    char nombre[20];
+    float precio;
+    int cantidad;
+} TPRODUCTO;
 
-typedef struct{
-    char nombre_bi[N];
-    libro lib[10];
-    int lleno_bi;
-}biblioteca;
+void agregar_producto(TPRODUCTO carrito[], int *cantidad_productos);
+void eliminar_producto(TPRODUCTO carrito[], int *cantidad_productos);
+void mostrar_carrito(TPRODUCTO carrito[], int cantidad_productos);
+void mostrar_total(TPRODUCTO carrito[], int cantidad_productos);
 
-biblioteca bi[3];
-
-void vacio();
-void cambio(char palabra[N]);
-void anadebi();
-void anadelib();
-void consulta();
-
-
-int main() {
-    int op;
-    char key;
-
-    vacio();
+int main(){ 
+    TPRODUCTO carrito[MAX_PRODUCTOS];
+    int cantidad_productos = 0;
+    int opcion;
 
     do{
         do{
-            printf("\n\n");
-            printf("  MINI CAJA REGISTADORA");
-            printf("\n-------------------------\n");
-            printf("Menu Principal: \n");
-            printf("(1) Resgistrar Venta.\n");
-            printf("(2) Inventario.\n");
-            printf("(3) Listar ventas.\n");
-            printf("(4) Salir.\n");
-            printf("escoja la opcion:");
-            scanf("%i",&op);
-        }while (op < 1 || op>4);
+        printf("\n\n");
+        printf("\n--- MINI CAJA REGISTADORA ---\n");
+        printf("\n  -------------------------\n");
+        printf("Menu Principal: \n");
+        printf("(1) Resgistrar Venta.\n");
+        printf("(2) Inventario.\n");
+        printf("(3) Listar ventas.\n");
+        printf("(4) Salir.\n");
+        printf("(5) jhchiu.\n");
 
-        switch (op){
-        case 1:{
-            anadebi();
-            break;
-        }    
-        case 2:{
-            anadelib();
-            break;
-        }
-        case 3:{
-            consulta();
-            break;
-        }
-    }    
-        printf("Introduce si deseas realizar otra operacion:  (S/N)");
-        fflush(stdin);
-        scanf("%c",&key);
-    }while (key == 'S'||key=='s');
+        printf("\nEscoja la opcion:");
+        scanf("%d", &opcion);
+        }while (opcion < 1 || opcion>5);
 
-    system("pause");
-    return 0;
+
+        switch (opcion) {
+            case 1:
+                agregar_producto(carrito, &cantidad_productos);
+                break;
+            case 2:
+                eliminar_producto(carrito, &cantidad_productos);
+                break;
+            case 3:
+                mostrar_carrito(carrito, cantidad_productos);
+                break;
+            case 4:
+                mostrar_total(carrito, cantidad_productos);
+                break;
+            case 5:
+                printf("\nHasta luego!\n");
+                return 0;
+            default:
+                printf("\nOpcion invalida. Intente nuevamente.\n");
+        }
+    }
+    
 }
 
-void vacio(){
-    int i,j;
-    for ( i = 0; i < 3; i++){
-        bi[i].lleno_bi = 0;
-        for ( j = 0; j < 10; j++){
-            bi[i].lib[j].lleno_lib = 0;
-        }    
-    }  
-}
 
-void cambio(char palabra[N]){
+
+
+
+
+
+
+
+
+void agregar_producto(TPRODUCTO carrito[], int *cantidad_productos)
+{
     int i;
+    char nombre[20];
+    float precio;
+    int cantidad;
 
-    for ( i = 0; i < N; i++){
-       if(palabra[i]== '\n'){
-          palabra[i]= '\0';
-       }
-    }
-}
-
-void anadebi(){
-    int i, aux;
-    aux= 0;
-
-    for ( i = 0; i < 3 && aux == 0; i++){
-        if (bi[i].lleno_bi == 0){
-                printf("Introduce un nombre para la biblioteca: ");
-                fflush(stdin);
-                fgets(bi[i]. nombre_bi,N,stdin);
-                cambio(bi[i]. nombre_bi);
-
-                bi[i]. lleno_bi=1;
-                aux = 1;
-        }
+    if (*cantidad_productos >= MAX_PRODUCTOS)
+    {
+        printf("\nEl carrito esta lleno.\n");
+        return;
     }
 
-    if (aux== 0){
-    printf("no se pueden ingresar mas bibliotecas: \n");
-    }   
-}
+    printf("\n--- Agregar producto ---\n");
 
-void anadelib(){
-    int i,op, aux;
-    aux= 0;
-
-    for ( i = 0; i < 3; i++){
-        if (bi[i].lleno_bi== 1){
-                printf("(%i) %s.\n", i, bi[i].nombre_bi);
-        }
+    FILE *identificador = fopen("TPRODUCTO.txt", "a");
+    if (identificador == NULL)
+    {
+        printf("NO SE HA PODIDO ABRIR EL FICHERO.\n ");
+        return;
     }
-    scanf("%i", &op);
+    fprintf(identificador, "10202121");
+    
+    fclose(identificador);
 
-    for ( i = 0; i < 10 && aux == 0; i++){
-        if (bi[op].lib[i].lleno_lib == 0){
-                printf("Introduce el nombre del libro: ");
-                fflush(stdin);
-                fgets(bi[op].lib[i].nombre_lib,N,stdin);
-                cambio(bi[op].lib[i].nombre_lib);
+    printf("Ingrese el nombre del producto: ");
+    scanf("%s", nombre);
 
-                printf("Introduce el nombre del autor: ");
-                fflush(stdin);
-                fgets(bi[op].lib[i].autor,N,stdin);
-                cambio(bi[op].lib[i].autor);
+    printf("Ingrese el precio del producto: ");
+    scanf("%f", &precio);
 
-                bi[op].lib[i].lleno_lib =1;
-                aux = 1;
+    printf("Ingrese la cantidad del producto: ");
+    scanf("%d", &cantidad);
+
+
+    for (i = 0; i < MAX_PRODUCTOS; i++){
+        if (strcmp(carrito[i].nombre, "") == 0){
+            strcpy(carrito[i].nombre, nombre);
+            carrito[i].precio = precio;
+            carrito[i].cantidad = cantidad;
+            *cantidad_productos += 1;
+            printf("\nProducto agregado exitosamente.\n");
+            return;
         }
     }
 }
 
-void consulta(){
-    int op,i,j,aux;
-    char buscar[N];
+void mostrar_carrito(TPRODUCTO carrito[], int cantidad_productos) {
+int i;
 
-    aux = 1;
 
-    do{
-            printf("Elige que deseas buscar: \n");
-            printf("(1) Nombre ibro.\n");
-            printf("(2) Nombre Autor.\n");
-            scanf("%i",&op);
-        }while (op < 1 || op>2);
+printf("\n--- Carrito ---\n");
 
-        switch (op){
-            case 1:{
-                printf("Introduce el nombre del libro que deseas buscar: ");
-                fflush(stdin);
-                fgets(buscar,N,stdin);
-                cambio(buscar);
-
-                for ( i = 0; i < 3; i++){
-                    aux = 1;
-                    for ( j = 0; j < 10; j++){
-                        aux= strcmp(buscar,bi[i].lib[j].nombre_lib);
-                        if(aux == 0){
-                            printf("El libro %s se encuentra en la biblioteca %s.\n", buscar,bi[i].nombre_bi);
-                            printf("El autor es: %s.\n", bi[i].lib[j].autor);
-                        }
-                    }  
-                }                   
-                break;
-            }
-            case 2:{
-                printf("Introduce el nombre del autor que deseas buscar: ");
-                fflush(stdin);
-                fgets(buscar,N,stdin);
-                cambio(buscar);
-
-                for ( i = 0; i < 3; i++){
-                    aux = 1;
-                    for ( j = 0; j < 10; j++){
-                        aux= strcmp(buscar,bi[i].lib[j].autor);
-                        if(aux == 0){
-                            printf("El libro %s se encuentra en la biblioteca %s.\n", bi[i].lib[j].nombre_lib,bi[i].nombre_bi);
-                        }
-                    }  
-                }                   
-                break;
-            }
-        }
+if (cantidad_productos == 0) {
+    printf("\nEl carrito esta vacio.\n");
+    return;
 }
 
+for (i = 0; i < MAX_PRODUCTOS; i++) {
+    if (strcmp(carrito[i].nombre, "") != 0) {
+        printf("%d. %s\t%.2f\t%d\n", i+1, carrito[i].nombre, carrito[i].precio,  carrito[i].cantidad);
+    }
+}
+}
+
+void mostrar_total(TPRODUCTO carrito[], int cantidad_productos) {
+int i;
+float total = 0.0;
+
+printf("\n--- Total ---\n");
+
+if (cantidad_productos == 0) {
+    printf("\nEl carrito esta vacio.\n");
+    return;
+}
+
+for (i = 0; i < MAX_PRODUCTOS; i++) {
+    if (strcmp(carrito[i].nombre, "") != 0) {
+        total += carrito[i].precio * carrito[i].cantidad;
+    }
+}
+
+printf("\nEl total es: $%.2f\n", total);
+}
