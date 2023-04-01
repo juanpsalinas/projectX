@@ -2,209 +2,224 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
-#include <time.h>
 
-// Definición de estructuras
-struct Producto {
-    int id;
-    char nombre[20];
-    int cantidad;
-};
-
-struct Venta {
-    int id;
-    char nombreComprador[50];
-    int idProducto;
-    int cantidad;
-    char fecha[30];
-};
-
-// Declaración de variables globales
-struct Producto inventario[3] = {{1, "Carne", 10}, {2, "Leche", 20}, {3, "Arroz", 30}};
-struct Venta ventas[100];
-int numVentas = 0;
-
-// Declaración de funciones
-void registrarVenta();
-void mostrarInventario();
-void crearProducto();
-void listarProductos();
-void listarVentas();
-void menuInventario();
-
-void menuInventario()
+// Estructura que representa un producto
+typedef struct Producto
 {
-    int subopcion;
-    do
-    {
-        printf("\n*** Inventario ***\n");
-        printf("1. Crear producto\n");
-        printf("2. Listar productos\n");
-        printf("3. Regresar\n");
-        printf("Ingrese una opcion: ");
-        scanf("%d", &subopcion);
+    int id;
+    char nombre[50];
+    double precio;
+    int cantidad;
+    struct Producto *siguiente;
+} Producto;
 
-        switch (subopcion)
-        {
-        case 1:
-            crearProducto();
-            break;
-        case 2:
-            listarProductos();
-            break;
-        case 3:
-            break;
-        default:
-            printf("Opcion invalida\n");
-            break;
-        }
-    } while (subopcion != 3);
-}
+// Estructura que representa una venta
+typedef struct Venta
+{
+    int idProducto;
+    char nombreProducto[50];
+    double precioProducto;
+    int cantidadProducto;
+    double total;
+    struct Venta *siguiente;
+} Venta;
 
-// Función principal
-int main()
+// Función que muestra el menú principal
+int mostrarMenuPrincipal()
 {
     int opcion;
-    do
-    {
-        // Menú principal
-        printf("\n*** Caja registradora ***\n");
-        printf("1. Registrar venta\n");
-        printf("2. Inventario\n");
-        printf("3. Listar ventas\n");
-        printf("4. Salir\n");
-        printf("Ingrese una opcion: ");
-        scanf("%d", &opcion);
-
-        switch (opcion)
-        {
-        case 1:
-            registrarVenta();
-            break;
-        case 2:
-            menuInventario();
-            break;
-        case 3:
-            listarVentas();
-            break;
-        case 4:
-            printf("Hasta luego!\n");
-            break;
-        default:
-            printf("Opcion invalida\n");
-            break;
-        }
-
-    } while (opcion != 4);
-
-    return 0;
+    printf("===== MENU PRINCIPAL =====\n");
+    printf("1. Registrar venta\n");
+    printf("2. Inventario\n");
+    printf("3. Listar ventas\n");
+    printf("4. Salir\n");
+    printf("Seleccione una opcion: ");
+    scanf("%d", &opcion);
+    return opcion;
 }
 
-// Implementación de funciones
-void registrarVenta() {
-// Mostrar inventario
-mostrarInventario();
+// Función que muestra el menú del inventario
+int mostrarMenuInventario()
+{
+    int opcion;
+    printf("===== INVENTARIO =====\n");
+    printf("1. Crear producto\n");
+    printf("2. Listar productos\n");
+    printf("3. Regresar\n");
+    printf("Seleccione una opcion: ");
+    scanf("%d", &opcion);
+    return opcion;
+}
 
+// Función que crea un nuevo producto
+Producto *crearProducto(int id, char nombre[], double precio, int cantidad)
+{
+    Producto *producto = (Producto *)malloc(sizeof(Producto));
+    producto->id = id;
+    strcpy(producto->nombre, nombre);
+    producto->precio = precio;
+    producto->cantidad = cantidad;
+    producto->siguiente = NULL;
+    return producto;
+}
 
-// Obtener id del producto a vender
-int idProducto;
-printf("Ingrese el id del producto que desea vender: ");
-scanf("%d", &idProducto);
-
-// Obtener cantidad a vender
-int cantidad;
-printf("Ingrese la cantidad que desea vender: ");
-scanf("%d", &cantidad);
-
-// Verificar si hay suficiente cantidad en inventario
-int i;
-for (i = 0; i < 3; i++) {
-    if (inventario[i].id == idProducto) {
-        if (inventario[i].cantidad < cantidad) {
-            printf("No hay suficiente cantidad en inventario\n");
-            return;
+// Función que agrega un producto a la lista enlazada
+void agregarProducto(Producto **listaProductos, Producto *producto)
+{
+    if (*listaProductos == NULL)
+    {
+        *listaProductos = producto;
+    }
+    else
+    {
+        Producto *actual = *listaProductos;
+        while (actual->siguiente != NULL)
+        {
+            actual = actual->siguiente;
         }
-        else {
-            inventario[i].cantidad -= cantidad;
-            break;
-        }
+        actual->siguiente = producto;
     }
 }
 
-// Si el producto no se encontró en el inventario
-if (i == 3) {
-    printf("El producto no se encuentra en inventario\n");
-    return;
+// Función que muestra los productos del inventario
+void mostrarProductos(Producto *listaProductos)
+{
+    printf("===== INVENTARIO =====\n");
+    printf("ID\tNOMBRE\t\tPRECIO\tCANTIDAD\n");
+    while (listaProductos != NULL)
+    {
+        printf("%d\t%s\t\t%.2f\t%d\n", listaProductos->id, listaProductos->nombre, listaProductos->precio, listaProductos->cantidad);
+        listaProductos = listaProductos->siguiente;
+    }
 }
 
-// Obtener el nombre del comprador
-char nombreComprador[50];
-printf("Ingrese el nombre del comprador: ");
-scanf("%s", nombreComprador);
+// Función que realiza una venta
+void realizarVenta(Producto **listaProductos, Venta **pilaVentas)
+{
+    int idProducto, cantidadProducto;
+    Producto *producto = NULL;
+    printf("Ingrese el ID del producto: ");
+    scanf("%d", &idProducto);
+    printf("Ingrese la cantidad del producto: ");
+    scanf("%d", &cantidadProducto);
 
-// Obtener la fecha actual
-time_t t = time(NULL);
-struct tm tm = *localtime(&t);
-char fecha[30];
-sprintf(fecha, "%d-%02d-%02d %02d:%02d:%02d", tm.tm_year + 1900, tm.tm_mon + 1, tm.tm_mday, tm.tm_hour, tm.tm_min, tm.tm_sec);
+    // Buscar el producto en el inventario
+    Producto *actual = *listaProductos;
+    while (actual != NULL)
+    {
+        if (actual->id == idProducto)
+        {
+            producto = actual;
+            break;
+        }
+        actual = actual->siguiente;
+    }
 
-// Crear registro de venta
-ventas[numVentas].id = numVentas + 1;
-ventas[numVentas].idProducto = idProducto;
-ventas[numVentas].cantidad = cantidad;
-strcpy(ventas[numVentas].nombreComprador, nombreComprador);
-strcpy(ventas[numVentas].fecha, fecha);
-numVentas++;
+    // Verificar que se haya encontrado el producto y haya suficiente cantidad
+    if (producto == NULL)
+    {
+        printf("ERROR: Producto no encontrado en el inventario.\n");
+    }
+    else if (cantidadProducto > producto->cantidad)
+    {
+        printf("ERROR: No hay suficiente cantidad del producto en el inventario.\n");
+    }
+    else
+    {
+        // Actualizar el inventario
+        producto->cantidad -= cantidadProducto;
 
-printf("Venta registrada exitosamente\n");
+        // Calcular el total de la venta y crear la venta
+        double totalVenta = cantidadProducto * producto->precio;
+        Venta *venta = (Venta *)malloc(sizeof(Venta));
+        venta->idProducto = producto->id;
+        strcpy(venta->nombreProducto, producto->nombre);
+        venta->precioProducto = producto->precio;
+        venta->cantidadProducto = cantidadProducto;
+        venta->total = totalVenta;
+        venta->siguiente = *pilaVentas;
+        *pilaVentas = venta;
+
+        printf("Venta realizada con exito. Total: %.2f\n", totalVenta);
+    }
 }
 
-void mostrarInventario() {
-printf("\nInventario:\n");
-printf("ID\tNombre\tCantidad\n");
-int i;
-for (i = 0; i < 3; i++) {
-printf("%d\t%s\t%d\n", inventario[i].id, inventario[i].nombre, inventario[i].cantidad);
-}
-}
-
-void crearProducto() {
-// Obtener los datos del producto a crear
-int id;
-printf("Ingrese el id del producto: ");
-scanf("%d", &id);
-
-
-char nombre[20];
-printf("Ingrese el nombre del producto: ");
-scanf("%s", nombre);
-
-int cantidad;
-printf("Ingrese la cantidad del producto: ");
-scanf("%d", &cantidad);
-
-// Crear el producto
-inventario[2].id = id;
-strcpy(inventario[2].nombre, nombre);
-inventario[2].cantidad = cantidad;
-
-printf("Producto creado exitosamente\n");
+// Función que muestra las ventas realizadas
+void mostrarVentas(Venta *pilaVentas)
+{
+    printf("===== VENTAS =====\n");
+    printf("ID\tNOMBRE\t\tPRECIO\tCANTIDAD\tTOTAL\n");
+    while (pilaVentas != NULL)
+    {
+        printf("%d\t%s\t\t%.2f\t%d\t\t%.2f\n", pilaVentas->idProducto, pilaVentas->nombreProducto, pilaVentas->precioProducto, pilaVentas->cantidadProducto, pilaVentas->total);
+        pilaVentas = pilaVentas->siguiente;
+    }
 }
 
-void listarProductos() {
-printf("\nProductos en inventario:\n");
-printf("ID\tNombre\tCantidad\n");
-int i;
-for (i = 0; i < 3; i++) {
-printf("%d\t%s\t%d\n", inventario[i].id, inventario[i].nombre, inventario[i].cantidad);
-}
-}
+int main()
+{
+    Producto *listaProductos = NULL;
+    Venta *pilaVentas = NULL;
+    int opcion;
+    do
+    {
+        opcion = mostrarMenuPrincipal();
+        switch (opcion)
+        {
+        case 1:
+            realizarVenta(&listaProductos, &pilaVentas);
+            break;
+        case 2:
+            opcion = mostrarMenuInventario();
+            switch (opcion)
+            {
+            case 1:
+            {
+                int id;
+                char nombre[50];
+                double precio;
+                int cantidad;
+                printf("Ingrese el ID del producto: ");
+                scanf("%d", &id);
+                printf("Ingrese el nombre del producto: ");
+                scanf("%s", nombre);
+                printf("Ingrese el precio del producto: ");
+                scanf("%lf", &precio);
+                printf("Ingrese la cantidad del producto: ");
+                scanf("%d", &cantidad);
+                Producto *producto = crearProducto(id, nombre, precio, cantidad);
+                agregarProducto(&listaProductos, producto);
+                printf("Producto creado con exito.\n");
+                break;
+            }
+            case 2:
+                mostrarProductos(listaProductos);
+                break;
+            case 3:
+                break;
+            default:
+                printf("ERROR: Opcion invalida.\n");
+                break;
+            }
+            break;
+        case 3:
+            mostrarVentas(pilaVentas);
+            break;
+        case 4:
+            printf("Adios!\n");
+            break;
+        default:
+            printf("ERROR: Opcion invalida.\n");
+            break;
+        }
+    } while (opcion != 4);
 
-void listarVentas() {
-printf("\nRegistro de ventas:\n");
-printf("ID\tProducto\tComprador\tCantidad\tFecha\n");
-int i;
-for (i = 0; i < numVentas; i++) {
-printf("%d\t%s\t%s\t%d\t%s\n", ventas[i].id, inventario[ventas[i].idProducto - 1].nombre, ventas[i].nombreComprador, ventas[i].cantidad, ventas[i].fecha);
-}
+            // Liberar memoria
+            Producto *actualProducto = listaProductos;
+    while (actualProducto != NULL)
+    {
+        Producto *siguienteProducto = actualProducto->siguiente;
+        free(actualProducto);
+        actualProducto = siguienteProducto;
+    }
 }
