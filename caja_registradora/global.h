@@ -12,17 +12,16 @@
 /*-----------------------------------------------------------------------------
 |   Structs
 +----------------------------------------------------------------------------*/
-typedef struct
-{ // USUARIOS
+typedef struct USUARIOS
+{
     int codigoUsu;
     char nombreUs[15];
     char cedulaUs[15];
     struct USUARIOS *sig;
-    struct USUARIOS *ant;
 } USUARIOS;
 
-typedef struct
-{ // STRUCT PEDIDOS
+typedef struct PEDIDOS
+{
     int codigoPedido;
     USUARIOS *usuarioP;
     char nombreP[15];
@@ -30,17 +29,15 @@ typedef struct
     char fecha[70];
     float valorC;
     struct PEDIDOS *sig;
-    struct PEDIDOS *ant;
 } PEDIDOS;
 
-typedef struct
-{ // PRODUCTOS
+typedef struct PRODUCTOS
+{
     int codigo;
     char nombre[15];
     int cantidad;
     float precio;
     struct PRODUCTOS *sig;
-    struct PRODUCTOS *ant;
 } PRODUCTOS;
 
 /*-----------------------------------------------------------------------------
@@ -57,7 +54,6 @@ typedef enum RET
 +----------------------------------------------------------------------------*/
 #define TAMANO 50
 #define CLEAN system("cls");
-extern int cantUs;
 extern PRODUCTOS *raiz;
 extern USUARIOS *raizUsu;
 extern USUARIOS *nombreClienActu;

@@ -15,15 +15,16 @@
 | Returns:
 | - Nada (void).
 +---------------------------------------------------------------------------*/
-void imprimirpro()
+void imprimirpro(void)
 {
     PRODUCTOS *reco = raiz;
+    printf("\t___   LISTA DE PRODUCTOS   ___");
     while (reco != NULL)
     {
         printf("\n<<<<<<<<<<  %s  >>>>>>>>>>>\n", reco->nombre);
         printf(" Codigo | Cantidad | Precio \n");
-        printf("   %i\t     %i\t     %0.0f \n", reco->codigo, reco->cantidad, reco->precio);
-        reco = (PRODUCTOS *)reco->sig;
+        printf("   %d\t     %d\t     %0.0f \n", reco->codigo, reco->cantidad, reco->precio);
+        reco = reco->sig;
     }
     printf("\n");
 }
@@ -42,7 +43,7 @@ void imprimirUsu()
         printf("\n\n************************************\n");
         printf("<<<<<<<<<<  %s  >>>>>>>>>>>\n", recous->nombreUs);
         printf("\t<> Cedula : %s \n", recous->cedulaUs);
-        printf("\t<> Codigo : %i \n\n", recous->codigoUsu);
+        printf("\t<> Codigo : %d \n\n", recous->codigoUsu);
         recous = (USUARIOS *)recous->sig;
     }
     printf("\n");
@@ -59,7 +60,7 @@ void imprimirUsuespe(USUARIOS *usuarioProd)
 {
     printf(" _____________________________________\n");
     printf("|  Nombre  |  |  Cedula  |   | Codigo|\n");
-    printf("|  %s    \t%s  \t  %i _|\n", usuarioProd->nombreUs, usuarioProd->cedulaUs, usuarioProd->codigoUsu);
+    printf("|  %s    \t%s  \t  %d _|\n", usuarioProd->nombreUs, usuarioProd->cedulaUs, usuarioProd->codigoUsu);
     printf("\n");
 }
 
@@ -81,7 +82,7 @@ void imprimirPedi(PEDIDOS *vectP[TAMANO])
     {
         reco = vectP[i];
         printf("\n*************************************\n");
-        printf("  xxxxxxxxx  Pedido N*:%i  xxxxxxxxx\n", reco->codigoPedido);
+        printf("  xxxxxxxxx  Pedido N*:%d  xxxxxxxxx\n", reco->codigoPedido);
         printf("   --Fecha: %s--\n", reco->fecha);
         imprimirUsuespe(reco->usuarioP);
 
@@ -104,33 +105,29 @@ void imprimirPedi(PEDIDOS *vectP[TAMANO])
 | Nombre de la función: imprimirPediEspes
 | Descripción: imprime un informe de pedido detallado para un pedido específico
 | Parámetros: PEDIDOS *vectEsps - puntero al primer nodo de la orden
-| Devoluciones: void
+| Returns: void
 +------------------------------------------------- --------------------------*/
-void imprimirPediEspes(PEDIDOS *vectEsps)
+void imprimirPediEspes(PEDIDOS *vectEsps, int codigoPedido)
 {
     int i = 0;
     PEDIDOS *reco = vectEsps;
-    PEDIDOS *reco2 = vectEsps;
-    printf("prueba\n");
-
-    printf("\n*************************************\n");
-    printf(" xxxxxxxxxxx  Pedido N*:%i  xxxxxxxxxx\n", reco->codigoPedido);
-    printf("   --Fecha: %s--\n", reco->fecha);
-    imprimirUsuespe(reco->usuarioP);
+    float total = 0;
 
     while (reco != NULL)
     {
-        printf("->\t%s ............%0.2f\n", reco->nombreP, reco->valorC);
+        if(codigoPedido == reco->codigoPedido)
+            break;
         reco = reco->sig;
     }
 
-    float total = 0;
+    printf("\n*************************************\n");
+    printf(" xxxxxxxxxxx  Pedido N*:%d  xxxxxxxxxx\n", reco->codigoPedido);
+    printf("   --Fecha: %s--\n", reco->fecha);
+    imprimirUsuespe(reco->usuarioP);
 
-    while (reco2 != NULL)
-    {
-        total += reco2->valorC;
-        reco2 = reco2->sig;
-    }
+    printf("->\t%s ............%0.2f\n", reco->nombreP, reco->valorC);
+    total += reco->valorC;
+
     printf("_____________________________________\n");
     printf(" \tTOTAL: ..............%0.2f\n\n", total);
     i++;

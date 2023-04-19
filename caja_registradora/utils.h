@@ -13,7 +13,7 @@ RET existe(int x);
 RET existePedido(int x, PEDIDOS *raizPedEx);
 int cantidadpro();
 const char *codNombreProduct(int cod);
-int precioProduct(int cod);
+float precioProduct(int cod);
 RET existeUsu(int x);
 RET vaciausu();
 int cantidadusu();

@@ -40,7 +40,7 @@ RET existePedido(int x, PEDIDOS *raizPedEx)
     {
         if (recoped->codigoPedido == x)
             return RET_OK;
-        recoped = (PEDIDOS *)recoped->sig;
+        recoped = recoped->sig;
     }
     return RET_FAIL;
 }
@@ -58,7 +58,7 @@ int cantidadpro()
     while (reco != NULL)
     {
         cant++;
-        reco = (PRODUCTOS *)reco->sig;
+        reco = reco->sig;
     }
     return cant;
 }
@@ -77,7 +77,7 @@ const char *codNombreProduct(int cod)
         if (reco->codigo == cod)
             return reco->nombre;
         else
-            reco = (PRODUCTOS *)reco->sig;
+            reco = reco->sig;
     }
     return 0;
 }
@@ -90,7 +90,7 @@ const char *codNombreProduct(int cod)
 | Returns:
 | int: precio del producto
 +---------------------------------------------------------------------------*/
-int precioProduct(int cod)
+float precioProduct(int cod)
 {
     PRODUCTOS *reco = raiz;
     while (reco != NULL)
@@ -98,7 +98,7 @@ int precioProduct(int cod)
         if (reco->codigo == cod)
             return reco->precio;
         else
-            reco = (PRODUCTOS *)reco->sig;
+            reco = reco->sig;
     }
     return 0;
 }
@@ -143,12 +143,12 @@ RET vaciausu()
 +---------------------------------------------------------------------------*/
 int cantidadusu()
 {
-    USUARIOS *recousu = raizUsu;
     int cant = 0;
+    USUARIOS *recousu = raizUsu;
     while (recousu != NULL)
     {
         cant++;
-        recousu = (USUARIOS *)recousu->sig;
+        recousu = recousu->sig;
     }
     return cant;
 }
@@ -176,7 +176,7 @@ int cantidadPed(PEDIDOS *raizPedCa)
     PEDIDOS *recoped = raizPedCa;
     while (recoped != NULL)
     {
-        recoped = (PEDIDOS *)recoped->sig;
+        recoped = recoped->sig;
         cantd++;
     }
     return cantd;
@@ -209,7 +209,7 @@ RET descontarProducto(int codi, int cant)
                 printf(">>>>>La cantidad excede el stock.<<<<<\n");
             return RET_FAIL;
         }
-        reco = (PRODUCTOS *)reco->sig;
+        reco = reco->sig;
     }
     return RET_FAIL;
 }

@@ -6,15 +6,12 @@
 #include "registro.h"
 #include "imprimir.h"
 
-/*-----------------------------------------------------------------------------
-|   Globales
-+----------------------------------------------------------------------------*/
-int cantUs = -1;
 PRODUCTOS *raiz = NULL;
 USUARIOS *raizUsu = NULL;
 USUARIOS *nombreClienActu = NULL;
 PEDIDOS *raizPed = NULL;
 PEDIDOS *vectorPedidos = NULL;
+
 
 /*-----------------------------------------------------------------------------
 |   Prototipos
@@ -39,7 +36,7 @@ static void inventario()
         printf("|>  2-Listado de productos.\n");
         printf("|>  3-Salir.\n\n");
         printf("Elija su opcion: ->");
-        scanf("%i", &opcion);
+        scanf("%d", &opcion);
         CLEAN
         switch (opcion)
         {
@@ -51,6 +48,7 @@ static void inventario()
             break;
         default:
             printf("\n");
+            break;
         }
     } while (opcion != 3);
 }
@@ -66,10 +64,10 @@ static void menuPrincipal()
         printf("[]  1-Registrar venta.\n");
         printf("[]  2-Inventario.\n");
         printf("[]  3-Lista de ventas.\n");
-        printf("[]  4-Salir.\n");
-        printf("[]  5-Imprimir usuarios.\n");
+        printf("[]  4-Imprimir usuarios.\n");
+        printf("[]  5-Salir.\n");
         printf("Elija su opcion: ->");
-        scanf("%i", &opcion);
+        scanf("%d", &opcion);
         CLEAN
         switch (opcion)
         {
@@ -82,16 +80,17 @@ static void menuPrincipal()
         case 3:
             imprimirPedi(&vectorPedidos);
             break;
-        case 4: // Salir
-            printf("Gracias por utilizar nuestra caja registradora!\n\n");
+        case 4:
+            imprimirUsu();
             break;
         case 5:
-            imprimirUsu();
+            printf("Gracias por utilizar nuestra caja registradora!\n\n");
             break;
         default:
             printf("La opcion no es valida.\n");
+            break;
         }
-    } while (opcion != 4);
+    } while (opcion != 5);
 }
 
 int main()
@@ -100,6 +99,7 @@ int main()
     /* for (int i = 0; i < TAMANO; i++)
         vectorPedidos->sig = raizPed; */
 
+    //Se queman los datos
     insertarpro("CARNE", 15, 1500.0);
     insertarpro("PAPA", 20, 1350.0);
     insertarpro("LECHE", 30, 2000.0);

@@ -9,10 +9,10 @@
 /*-----------------------------------------------------------------------------
 |   Prototipos
 +----------------------------------------------------------------------------*/
-void imprimirpro();
+void imprimirpro(void);
 void imprimirUsu();
 void imprimirUsuespe(USUARIOS *usuarioProd);
 void imprimirPedi(PEDIDOS *vectP[TAMANO]);
-void imprimirPediEspes(PEDIDOS vectEsps[TAMANO]);
+void imprimirPediEspes(PEDIDOS *vectEsps, int codigoPedido);
 
 #endif // __IMPRIMIR__

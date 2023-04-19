@@ -1,6 +1,7 @@
 /*-----------------------------------------------------------------------------
 |   Includes
 +----------------------------------------------------------------------------*/
+#include "global.h"
 #include "registro.h"
 #include "utils.h"
 #include "imprimir.h"
@@ -17,57 +18,35 @@
 |       - cedula: cédula del usuario a insertar
 |   Returns: void
 +---------------------------------------------------------------------------*/
-void insertarusu(char nombreusu[15], char cedula[15])
+void insertarusu(char *nombreusu, char *cedula)
 {
     static int codigo = 0;
     codigo++;
     int pos = cantidadusu() + 1;
-    if (!existeUsu(codigo))
+    if (existeUsu(codigo) == RET_FAIL)
     {
-        if (pos <= cantidadusu() + 1)
-        {
             USUARIOS *nuevo;
             nuevo = malloc(sizeof(USUARIOS));
             nuevo->codigoUsu = codigo;
             strcpy(nuevo->nombreUs, nombreusu);
             strcpy(nuevo->cedulaUs, cedula);
-            nuevo->ant = NULL;
             nuevo->sig = NULL;
 
             if (pos == 1)
             {
                 nuevo->sig = (struct USUARIOS *)raizUsu;
-                if (raizUsu != NULL)
-                    raizUsu->ant = (struct USUARIOS *)nuevo;
                 raizUsu = nuevo;
             }
             else
             {
-                if (pos == cantidadusu() + 1)
-                {
                     USUARIOS *reco = raizUsu;
                     while (reco->sig != NULL)
                     {
                         reco = (USUARIOS *)reco->sig;
                     }
-                    reco->sig = (struct USUARIOS *)nuevo;
-                    nombreClienActu = (USUARIOS *)reco->sig;
-                    nuevo->ant = (struct USUARIOS *)reco;
+                    reco->sig = nuevo;
+                    nombreClienActu = reco->sig;
                 }
-                else
-                {
-                    USUARIOS *reco = raizUsu;
-                    int f;
-                    for (f = 1; f <= pos - 2; f++)
-                        reco = (USUARIOS *)reco->sig;
-                    USUARIOS *siguiente = (USUARIOS *)reco->sig;
-                    reco->sig = (struct USUARIOS *)nuevo;
-                    nuevo->ant = (struct USUARIOS *)reco;
-                    nuevo->sig = (struct USUARIOS *)siguiente;
-                    siguiente->ant = (struct USUARIOS *)nuevo;
-                }
-            }
-        }
     }
 }
 
@@ -80,57 +59,33 @@ void insertarusu(char nombreusu[15], char cedula[15])
 | - preciop: precio del nuevo producto.
 | Returns: (void).
 +---------------------------------------------------------------------------*/
-void insertarpro(char nombrep[15], int cantidadp, float preciop)
+void insertarpro(char *nombrep, int cantidadp, float preciop)
 {
     static int x = 0;
     x++;
     int pos = cantidadpro() + 1;
-    if (!existe(x) == RET_OK)
+    if (existe(x) == RET_FAIL)
     {
-        if (pos <= cantidadpro() + 1)
-        {
             PRODUCTOS *nuevo;
             nuevo = malloc(sizeof(PRODUCTOS));
             nuevo->codigo = x;
             strcpy(nuevo->nombre, nombrep);
             nuevo->cantidad = cantidadp;
             nuevo->precio = preciop;
-            nuevo->ant = NULL;
             nuevo->sig = NULL;
 
             if (pos == 1)
             {
                 nuevo->sig = (struct PRODUCTOS *)raiz;
-                if (raiz != NULL)
-                    raiz->ant = (struct PRODUCTOS *)nuevo;
                 raiz = nuevo;
-            }
-            else
-            {
-                if (pos == cantidadpro() + 1)
-                {
+            }else{
                     PRODUCTOS *reco = raiz;
                     while (reco->sig != NULL)
                     {
                         reco = (PRODUCTOS *)reco->sig;
                     }
                     reco->sig = (struct PRODUCTOS *)nuevo;
-                    nuevo->ant = (struct PRODUCTOS *)reco;
                 }
-                else
-                {
-                    PRODUCTOS *reco = raiz;
-                    int f;
-                    for (f = 1; f <= pos - 2; f++)
-                        reco = (PRODUCTOS *)reco->sig;
-                    PRODUCTOS *siguiente = (PRODUCTOS *)reco->sig;
-                    reco->sig = (struct PRODUCTOS *)nuevo;
-                    nuevo->ant = (struct PRODUCTOS *)reco;
-                    nuevo->sig = (struct PRODUCTOS *)siguiente;
-                    siguiente->ant = (struct PRODUCTOS *)nuevo;
-                }
-            }
-        }
     }
 }
 
@@ -146,9 +101,8 @@ void insertarpro(char nombrep[15], int cantidadp, float preciop)
 | vect (PEDIDOS []) - Matriz de pedidos
 | Returns: void
 +------------------------------------------------- --------------------------*/
-void insertarPedido(int cant, int pos, char nombreProd[15], int cantProd, float valor, PEDIDOS *vect)
+void insertarPedido(int cant, char *nombreProd, int cantProd, float valor)
 {
-
     time_t t = time(NULL);
     struct tm tiempoLocal = *localtime(&t);
     char fechaHora[70];
@@ -158,65 +112,39 @@ void insertarPedido(int cant, int pos, char nombreProd[15], int cantProd, float 
     memset(fecha, 0x00, sizeof(fecha));
     sprintf(fecha, "%d", bytesEscritos);
 
-    int posi = cantidadPed(vect) + 1;
-    if (!existePedido(cant, vect))
-    {
-        if (posi <= cantidadPed(vect) + 1)
-        {
-            PEDIDOS *nuevo;
-            nuevo = malloc(sizeof(PEDIDOS));
-            nuevo->codigoPedido = cant;
-            nuevo->usuarioP = nombreClienActu;
-            strcpy(nuevo->nombreP, nombreProd);
-            nuevo->cantidadproducts = cantProd;
-            strcpy((char *)nuevo->fecha, (const char *)fecha);
-            nuevo->valorC = valor;
-            strcpy(nuevo->fecha, fechaHora);
-            nuevo->ant = NULL;
-            nuevo->sig = NULL;
+    int posi = cantidadPed(vectorPedidos) + 1;
+    PEDIDOS *nuevo_Pedido = NULL;
+    nuevo_Pedido = malloc(sizeof(PEDIDOS *));
+    nuevo_Pedido->codigoPedido = cant;
+    nuevo_Pedido->usuarioP = nombreClienActu;
+    strcpy(nuevo_Pedido->nombreP, nombreProd);
+    nuevo_Pedido->cantidadproducts = cantProd;
+    strcpy((char *)nuevo_Pedido->fecha, (const char *)fecha);
+    nuevo_Pedido->valorC = valor;
+    strcpy(nuevo_Pedido->fecha, fechaHora);
+    nuevo_Pedido->sig = NULL;
 
-            if (posi == 1)
-            {
-                nuevo->sig = (struct PEDIDOS *)vect;
-                if (vect != NULL)
-                    vect->ant = (struct PEDIDOS *)nuevo;
-                vect = nuevo;
-            }
-            else
-            {
-                if (posi == cantidadPed(vect) + 1)
-                {
-                    PEDIDOS *reco = vect;
-                    while (reco->sig != NULL)
-                        reco = (PEDIDOS *)reco->sig;
-                    reco->sig = (struct PEDIDOS *)nuevo;
-                    nuevo->ant = (struct PEDIDOS *)reco;
-                }
-                else
-                {
-                    PEDIDOS *reco = (PEDIDOS *)vect;
-                    int f;
-                    for (f = 1; f <= posi - 2; f++)
-                        reco = (PEDIDOS *)reco->sig;
-                    PEDIDOS *siguiente = (PEDIDOS *)reco->sig;
-                    reco->sig = (struct PEDIDOS *)nuevo;
-                    nuevo->ant = (struct PEDIDOS *)reco;
-                    nuevo->sig = (struct PEDIDOS *)siguiente;
-                    siguiente->ant = (struct PEDIDOS *)nuevo;
-                }
-            }
-        }
+    if (posi == 1)
+    {
+        nuevo_Pedido->sig = vectorPedidos;
+        vectorPedidos = nuevo_Pedido;
     }
-    printf("vect = %s", vect->nombreP);
+    else
+    {
+        PEDIDOS *reco = vectorPedidos;
+        while (reco->sig != NULL)
+            reco = reco->sig;
+        reco->sig = nuevo_Pedido;
+    }
 }
 
 /*-------------------------------------------------- ---------------------------
 | Function Name: datosUser
-| Description Solicita al usuario que ingrese su nombre y número de ID, y almacena la información en el sistema.
+| Description Solicita al usuario que ingrese su nombre y número de cédula, y almacena la información en el sistema.
 | Parameters: void
 | Returns: void
 +------------------------------------------------- --------------------------*/
-void datosUser()
+void datosUser(void)
 {
     CLEAN
 
@@ -232,10 +160,9 @@ void datosUser()
 
     fflush(stdin);
     printf("Ingrese su cedula: ");
-    scanf("%s", &cedula);
+    gets(cedula);
 
     insertarusu(nombreUs, cedula);
-    cantUs++;
 }
 
 /*----------------------------------------------------------------------------
@@ -244,48 +171,45 @@ void datosUser()
 | Parameters: void
 | Returns: void
 +---------------------------------------------------------------------------*/
-void registrarVenta()
+void registrarVenta(void)
 {
-    int codigo;
+    int codigoVenta;
     int cantidadp;
     char opcion;
-    fflush(stdin);
-    printf("-----  DESEA COMPRAR ? ('s/n') -----  \n\n");
-    scanf("%c", &opcion);
 
-    if (opcion != 'n')
-    {
-        datosUser();
-        printf("\t___   LISTA DE PRODUCTOS   ___");
-        imprimirpro();
-    }
-
+    datosUser();
+    imprimirpro();
+    char nombre[15];
     static int i = 1;
 
     do
     {
-        printf("-->Ingrese el codigo del producto: ");
-        scanf("%i", &codigo);
+        fflush(stdin);
+        printf("-->Ingrese el codigoVenta del producto: ");
+        scanf("%d", &codigoVenta);
+        if(existe(codigoVenta) == RET_FAIL){
+            printf("No existe el producto\n");
+            continue;
+        }
         fflush(stdin);
         printf("-->Ingrese el cantidad del producto: ");
-        scanf("%i", &cantidadp);
+        scanf("%d", &cantidadp);
 
-        float valor = (float)cantidadp * precioProduct(codigo);
-        char nombre[15];
-        strcpy(nombre, codNombreProduct(codigo));
+        float valor = (float)cantidadp * precioProduct(codigoVenta);
+        memset(nombre, 0x00, sizeof(nombre));
+        strcpy(nombre, codNombreProduct(codigoVenta));
 
-        printf(" Cod: %i, Cant :%i  ", codigo, cantidadp);
-        if (descontarProducto(codigo, cantidadp))
-            insertarPedido(i, cantUs, nombre, cantidadp, valor, vectorPedidos);
+        printf(" Cod: %d, Cant :%d  ", codigoVenta, cantidadp);
+        if (descontarProducto(codigoVenta, cantidadp) == RET_OK)
+            insertarPedido(i, nombre, cantidadp, valor);
 
         fflush(stdin);
         printf("  Desea adquirir otro producto ? 's/n' \n");
         scanf("%c", &opcion);
     } while (opcion != 'n');
-    i++;
-    printf("vectorPedidos[%d] = %s", i, vectorPedidos->nombreP);
     if (opcion == 'n')
-        imprimirPediEspes(vectorPedidos);
+        imprimirPediEspes(vectorPedidos,i);
+    i++;
 }
 
 /*----------------------------------------------------------------------------
@@ -294,13 +218,13 @@ void registrarVenta()
 | Parameters: void
 | Returns: void
 +---------------------------------------------------------------------------*/
-void NuevoProducto()
+void NuevoProducto(void)
 {
     char nombrep[15];
     int cantidadp;
     float preciop;
-
     char opcion;
+
     do
     {
         printf("-->Ingrese el nombre del producto: ");
@@ -308,7 +232,7 @@ void NuevoProducto()
         gets(nombrep);
         printf("-->Ingrese el cantidad del producto: ");
         fflush(stdin);
-        scanf("%i", &cantidadp);
+        scanf("%d", &cantidadp);
         printf("-->Ingrese el precio del producto: ");
         fflush(stdin);
         scanf("%f", &preciop);
