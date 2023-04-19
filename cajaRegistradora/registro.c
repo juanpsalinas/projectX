@@ -198,11 +198,12 @@ void registrarVenta(void)
 
         float valor = (float)cantidadp * precioProduct(codigoVenta);
         memset(nombre, 0x00, sizeof(nombre));
-        codNombreProduct(codigoVenta,auxNombre);
+        codNombreProduct(codigoVenta, auxNombre);
         strcpy(nombre, auxNombre);
 
         printf(" Cod: %d, Cant :%d  ", codigoVenta, cantidadp);
-        if (descontarProducto(codigoVenta, cantidadp) == RET_OK){
+        if (descontarProducto(codigoVenta, cantidadp) == RET_OK)
+        {
             insertarPedido(i, nombre, cantidadp, valor);
         }
 

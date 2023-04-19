@@ -12,7 +12,6 @@ USUARIOS *nombreClienActu = NULL;
 PEDIDOS *raizPed = NULL;
 PEDIDOS *vectorPedidos = NULL;
 
-
 /*-----------------------------------------------------------------------------
 |   Prototipos
 +----------------------------------------------------------------------------*/
@@ -23,7 +22,7 @@ static void menuPrincipal();
 |   Funciones
 +----------------------------------------------------------------------------*/
 
-//TODO: Cabecera
+// TODO: Cabecera
 static void inventario()
 {
     int opcion;
@@ -53,7 +52,7 @@ static void inventario()
     } while (opcion != 3);
 }
 
-//TODO: Cabecera
+// TODO: Cabecera
 static void menuPrincipal()
 {
     int opcion;
@@ -99,7 +98,7 @@ int main()
     /* for (int i = 0; i < TAMANO; i++)
         vectorPedidos->sig = raizPed; */
 
-    //Se queman los datos
+    // Se queman los datos
     insertarpro("CARNE", 15, 1500.0);
     insertarpro("PAPA", 20, 1750.0);
     insertarpro("SAL", 30, 2000.0);

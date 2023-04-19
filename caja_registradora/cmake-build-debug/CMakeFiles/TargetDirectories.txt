@@ -1,3 +1,0 @@
-C:/Users/Jp/CLionProjects/cajaRegistradora/cmake-build-debug/CMakeFiles/cajaRegistradora.dir
-C:/Users/Jp/CLionProjects/cajaRegistradora/cmake-build-debug/CMakeFiles/edit_cache.dir
-C:/Users/Jp/CLionProjects/cajaRegistradora/cmake-build-debug/CMakeFiles/rebuild_cache.dir

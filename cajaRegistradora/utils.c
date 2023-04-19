@@ -69,13 +69,13 @@ int cantidadpro()
 | Parameters: int cod - el código de producto a buscar
 | Returns: const char - el nombre del producto correspondiente, o NULL si no se encuentra
 +------------------------------------------------- --------------------------*/
-void codNombreProduct(int cod, char* nombre)
+void codNombreProduct(int cod, char *nombre)
 {
     PRODUCTOS *reco = raiz;
     while (reco != NULL)
     {
         if (reco->codigo == cod)
-            strcpy(nombre,reco->nombre);
+            strcpy(nombre, reco->nombre);
         reco = reco->sig;
     }
 }
@@ -203,7 +203,8 @@ RET descontarProducto(int codi, int cant)
                 printf("->Se ha descontado\n");
                 return RET_OK;
             }
-            else{
+            else
+            {
                 printf(">>>>>La cantidad excede el stock.<<<<<\n");
                 return RET_FAIL;
             }

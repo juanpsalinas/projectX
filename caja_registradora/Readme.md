@@ -1,1 +1,0 @@
-#Para ejecutar escribir make o mingw32-make
