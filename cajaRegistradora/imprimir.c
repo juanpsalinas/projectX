@@ -116,7 +116,7 @@ void imprimirPedi(PEDIDOS *vectP)
 +------------------------------------------------- --------------------------*/
 void imprimirPediEspes(PEDIDOS *vectEsps, int codigoPedido)
 {
-    // CLEAN//
+    CLEAN
     PEDIDOS *reco = vectEsps;
     float total = 0;
     RET band = RET_FAIL;

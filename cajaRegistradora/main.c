@@ -22,8 +22,13 @@ static void menuPrincipal();
 |   Funciones
 +----------------------------------------------------------------------------*/
 
-// TODO: Cabecera
-static void inventario()
+/*----------------------------------------------------------------------------
+| Function Name: inventario
+| Description: Muestra las opciones del submenú para administrar el inventario.
+| Parameters: void
+| Returns: void
++---------------------------------------------------------------------------*/
+static void inventario(void)
 {
     int opcion;
     do
@@ -52,8 +57,13 @@ static void inventario()
     } while (opcion != 3);
 }
 
-// TODO: Cabecera
-static void menuPrincipal()
+/*----------------------------------------------------------------------------
+| Function Name: menuPrincipal
+| Description: Muestra el menú principal de la caja registradora y procesa las opciones seleccionadas.
+| Parameters: void.
+| Returns: void.
++---------------------------------------------------------------------------*/
+static void menuPrincipal(void)
 {
     int opcion;
     do
@@ -94,9 +104,7 @@ static void menuPrincipal()
 
 int main()
 {
-    // CLEAN
-    /* for (int i = 0; i < TAMANO; i++)
-        vectorPedidos->sig = raizPed; */
+    CLEAN
 
     // Se queman los datos
     insertarpro("CARNE", 15, 1500.0);

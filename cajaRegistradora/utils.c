@@ -51,7 +51,7 @@ RET existePedido(int x, PEDIDOS *raizPedEx)
 | Parameters:void
 | Returns: La cantidad de elementos en la lista.
 +---------------------------------------------------------------------------*/
-int cantidadpro()
+int cantidadpro(void)
 {
     PRODUCTOS *reco = raiz;
     int cant = 0;
@@ -98,7 +98,7 @@ float precioProduct(int cod)
         else
             reco = reco->sig;
     }
-    return 0; /*?ret?*/
+    return 0; 
 }
 
 /*----------------------------------------------------------------------------
@@ -128,7 +128,7 @@ RET existeUsu(int x)
 | Parameters: None
 | Returns: RET_OK si la lista está vacía, RET_FAIL en caso contrario
 +---------------------------------------------------------------------------*/
-RET vaciausu()
+RET vaciausu(void)
 {
     return (raizUsu == NULL) ? RET_OK : RET_FAIL;
 }
@@ -139,7 +139,7 @@ RET vaciausu()
 | Parameters: void
 | Returns: int - la cantidad de usuarios registrados
 +---------------------------------------------------------------------------*/
-int cantidadusu()
+int cantidadusu(void)
 {
     int cant = 0;
     USUARIOS *recousu = raizUsu;
