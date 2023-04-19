@@ -21,5 +21,6 @@ int cantidadusu(void);
 RET vaciaped(PEDIDOS *raizPedEx);
 int cantidadPed(PEDIDOS *raizPedCa);
 RET descontarProducto(int codi, int cant);
+RET validarCantidad(int cant, int codi);
 
 #endif // __UTILS_H__

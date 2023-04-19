@@ -184,8 +184,8 @@ void registrarVenta(void)
 
     do
     {
-        printf("-->Ingrese el codigo del producto: ");
         fflush(stdin);
+        printf("-->Ingrese el codigo del producto: ");
         scanf("%d", &codigoVenta);
         if (existe(codigoVenta) == RET_FAIL)
         {
@@ -195,6 +195,10 @@ void registrarVenta(void)
         fflush(stdin);
         printf("-->Ingrese el cantidad del producto: ");
         scanf("%d", &cantidadp);
+        if(validarCantidad(cantidadp,codigoVenta) == RET_FAIL){
+            printf("No hay suficiente cantidad en el Stock\n");
+            continue;
+        }
 
         float valor = (float)cantidadp * precioProduct(codigoVenta);
         memset(nombre, 0x00, sizeof(nombre));

@@ -83,7 +83,7 @@ void imprimirPedi(PEDIDOS *vectP)
         if (band == RET_FAIL)
         {
             total = 0;
-            printf("\n*************************************2\n");
+            printf("\n*************************************\n");
             printf(" xxxxxxxxxxx  Pedido N*:%d  xxxxxxxxxx\n", reco->codigoPedido);
             printf("   --Fecha: %s--\n", reco->fecha);
             imprimirUsuespe(reco->usuarioP);
@@ -91,7 +91,7 @@ void imprimirPedi(PEDIDOS *vectP)
         }
         while (1)
         {
-            printf("->\t%s ............%0.2f\n", reco->nombreP, reco->valorC);
+            printf("->\t%s ............  x %d   $%0.2f\n", reco->nombreP, reco->cantidadproducts, reco->valorC);
             total += reco->valorC;
             if (reco->sig != NULL && reco->codigoPedido == reco->sig->codigoPedido)
                 reco = reco->sig;
@@ -133,7 +133,7 @@ void imprimirPediEspes(PEDIDOS *vectEsps, int codigoPedido)
                 imprimirUsuespe(reco->usuarioP);
                 band = RET_OK;
             }
-            printf("->\t%s ............%0.2f\n", reco->nombreP, reco->valorC);
+            printf("->\t%s ............  x %d   $%0.2f\n", reco->nombreP, reco->cantidadproducts, reco->valorC);
             total += reco->valorC;
         }
         reco = reco->sig;

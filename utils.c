@@ -98,7 +98,7 @@ float precioProduct(int cod)
         else
             reco = reco->sig;
     }
-    return 0; 
+    return 0;
 }
 
 /*----------------------------------------------------------------------------
@@ -181,6 +181,30 @@ int cantidadPed(PEDIDOS *raizPedCa)
 }
 
 /*----------------------------------------------------------------------------
+| Function Name: validarCantidad
+| Description:Valida si la cantidad de un producto con el código dado está disponible en el inventario.
+| Parameters: cant - la cantidad a validar; codi 
+- el código de producto a buscar.
+| Returns: RET_OK si la cantidad esta disponible, RET_FAIL de lo contrario
++---------------------------------------------------------------------------*/
+RET validarCantidad(int cant, int codi)
+{
+    PRODUCTOS *reco = raiz;
+    while (reco != NULL)
+    {
+        if (reco->codigo == codi)
+        {
+            if (reco->cantidad <= cant)
+            {
+                return RET_FAIL;
+            }
+        }
+        reco = reco->sig;
+    }
+    return RET_OK;
+}
+
+/*----------------------------------------------------------------------------
 | Function Name: descontarProducto
 | Description: Descuenta una cantidad de productos del stock.
 | Parameters:
@@ -197,17 +221,9 @@ RET descontarProducto(int codi, int cant)
     {
         if (reco->codigo == codi)
         {
-            if (reco->cantidad >= cant)
-            {
-                reco->cantidad -= cant;
-                printf("->Se ha descontado\n");
-                return RET_OK;
-            }
-            else
-            {
-                printf(">>>>>La cantidad excede el stock.<<<<<\n");
-                return RET_FAIL;
-            }
+            reco->cantidad -= cant;
+            printf("->Se ha descontado\n");
+            return RET_OK;
         }
         reco = reco->sig;
     }
