@@ -1,22 +1,32 @@
+/*-----------------------------------------------------------------------------
+|   Includes
++----------------------------------------------------------------------------*/
 #include "global.h"
 #include "utils.h"
 #include "registro.h"
 #include "imprimir.h"
 
+/*-----------------------------------------------------------------------------
+|   Globales
++----------------------------------------------------------------------------*/
 int cantUs = -1;
 PRODUCTOS *raiz = NULL;
 USUARIOS *raizUsu = NULL;
 USUARIOS *nombreClienActu = NULL;
 PEDIDOS *raizPed = NULL;
-PEDIDOS *vectorPedidos = NULL; 
+PEDIDOS *vectorPedidos = NULL;
 
-/*
-    Prototipos
- */
-
+/*-----------------------------------------------------------------------------
+|   Prototipos
++----------------------------------------------------------------------------*/
 static void inventario();
 static void menuPrincipal();
 
+/*-----------------------------------------------------------------------------
+|   Funciones
++----------------------------------------------------------------------------*/
+
+//TODO: Cabecera
 static void inventario()
 {
     int opcion;
@@ -45,6 +55,7 @@ static void inventario()
     } while (opcion != 3);
 }
 
+//TODO: Cabecera
 static void menuPrincipal()
 {
     int opcion;
@@ -85,7 +96,7 @@ static void menuPrincipal()
 
 int main()
 {
-    //CLEAN
+    // CLEAN
     /* for (int i = 0; i < TAMANO; i++)
         vectorPedidos->sig = raizPed; */
 

@@ -9,20 +9,21 @@
 #include <time.h>
 #include <string.h>
 
-
-/*****************
-*    Structs
-******************/
-typedef struct{             // USUARIOS
-    int codigoUsu;            
+/*-----------------------------------------------------------------------------
+|   Structs
++----------------------------------------------------------------------------*/
+typedef struct
+{ // USUARIOS
+    int codigoUsu;
     char nombreUs[15];
     char cedulaUs[15];
     struct USUARIOS *sig;
     struct USUARIOS *ant;
-}USUARIOS;
+} USUARIOS;
 
-typedef struct{             // STRUCT PEDIDOS
-    int codigoPedido; 
+typedef struct
+{ // STRUCT PEDIDOS
+    int codigoPedido;
     USUARIOS *usuarioP;
     char nombreP[15];
     int cantidadproducts;
@@ -30,10 +31,10 @@ typedef struct{             // STRUCT PEDIDOS
     float valorC;
     struct PEDIDOS *sig;
     struct PEDIDOS *ant;
-}PEDIDOS;
+} PEDIDOS;
 
-
-typedef struct{             // PRODUCTOS
+typedef struct
+{ // PRODUCTOS
     int codigo;
     char nombre[15];
     int cantidad;
@@ -42,14 +43,14 @@ typedef struct{             // PRODUCTOS
     struct PRODUCTOS *ant;
 } PRODUCTOS;
 
-
 /*-----------------------------------------------------------------------------
 |   Enums
 +----------------------------------------------------------------------------*/
-typedef enum RET{
+typedef enum RET
+{
     RET_OK,
     RET_FAIL
-}RET;
+} RET;
 
 /*-----------------------------------------------------------------------------
 |   GLOBALES
@@ -61,6 +62,6 @@ extern PRODUCTOS *raiz;
 extern USUARIOS *raizUsu;
 extern USUARIOS *nombreClienActu;
 extern PEDIDOS *raizPed;
-extern PEDIDOS *vectorPedidos; 
+extern PEDIDOS *vectorPedidos;
 
-#endif
+#endif // __GLOBAL_H__

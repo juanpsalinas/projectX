@@ -1,4 +1,11 @@
+/*-----------------------------------------------------------------------------
+|   Includes
++----------------------------------------------------------------------------*/
 #include "utils.h"
+
+/*-----------------------------------------------------------------------------
+|   Funciones
++----------------------------------------------------------------------------*/
 
 /*----------------------------------------------------------------------------
 | Function Name: existe
@@ -8,13 +15,14 @@
 | RET_OK si el elemento existe en la lista.
 | RET_FAIL si el elemento no existe en la lista.
 +---------------------------------------------------------------------------*/
-RET existe(int x){
+RET existe(int x)
+{
     PRODUCTOS *reco = raiz;
     while (reco != NULL)
     {
         if (reco->codigo == x)
             return RET_OK;
-        reco = (PRODUCTOS*)reco->sig;
+        reco = (PRODUCTOS *)reco->sig;
     }
     return RET_FAIL;
 }
@@ -32,7 +40,7 @@ RET existePedido(int x, PEDIDOS *raizPedEx)
     {
         if (recoped->codigoPedido == x)
             return RET_OK;
-        recoped = (PEDIDOS*)recoped->sig;
+        recoped = (PEDIDOS *)recoped->sig;
     }
     return RET_FAIL;
 }
@@ -50,7 +58,7 @@ int cantidadpro()
     while (reco != NULL)
     {
         cant++;
-        reco = (PRODUCTOS*)reco->sig;
+        reco = (PRODUCTOS *)reco->sig;
     }
     return cant;
 }
@@ -69,11 +77,10 @@ const char *codNombreProduct(int cod)
         if (reco->codigo == cod)
             return reco->nombre;
         else
-            reco = (PRODUCTOS*)reco->sig;
+            reco = (PRODUCTOS *)reco->sig;
     }
     return 0;
 }
-
 
 /*----------------------------------------------------------------------------
 | Function Name: precioProduct
@@ -91,7 +98,7 @@ int precioProduct(int cod)
         if (reco->codigo == cod)
             return reco->precio;
         else
-            reco = (PRODUCTOS*)reco->sig;
+            reco = (PRODUCTOS *)reco->sig;
     }
     return 0;
 }
@@ -112,10 +119,11 @@ RET existeUsu(int x)
     {
         if (recousu->codigoUsu == x)
             return RET_OK;
-        recousu = (USUARIOS*)recousu->sig;
+        recousu = (USUARIOS *)recousu->sig;
     }
     return RET_FAIL;
 }
+
 /*----------------------------------------------------------------------------
 | Function Name: vaciausu
 | Description: Verifica si la lista de usuarios está vacía
@@ -140,7 +148,7 @@ int cantidadusu()
     while (recousu != NULL)
     {
         cant++;
-        recousu = (USUARIOS*)recousu->sig;
+        recousu = (USUARIOS *)recousu->sig;
     }
     return cant;
 }
@@ -151,7 +159,8 @@ int cantidadusu()
 | Parameters: PEDIDOS raizPedEx (puntero a la raíz de la lista de pedidos)
 | Returns: RET_OK si la lista está vacía, RET_FAIL si no lo está
 +---------------------------------------------------------------------------*/
-RET vaciaped(PEDIDOS *raizPedEx){
+RET vaciaped(PEDIDOS *raizPedEx)
+{
     return (raizPedEx == NULL) ? RET_OK : RET_FAIL;
 }
 
@@ -161,14 +170,13 @@ RET vaciaped(PEDIDOS *raizPedEx){
 | Parameters: PEDIDOS raizPedCa (puntero a la raíz de la lista de pedidos)
 | Returns: La cantidad de nodos en la lista de pedidos
 +---------------------------------------------------------------------------*/
-
 int cantidadPed(PEDIDOS *raizPedCa)
 {
     int cantd = 0;
     PEDIDOS *recoped = raizPedCa;
     while (recoped != NULL)
     {
-        recoped = (PEDIDOS*)recoped->sig;
+        recoped = (PEDIDOS *)recoped->sig;
         cantd++;
     }
     return cantd;
@@ -201,8 +209,7 @@ RET descontarProducto(int codi, int cant)
                 printf(">>>>>La cantidad excede el stock.<<<<<\n");
             return RET_FAIL;
         }
-        reco = (PRODUCTOS*)reco->sig;
+        reco = (PRODUCTOS *)reco->sig;
     }
     return RET_FAIL;
 }
-

@@ -1,6 +1,13 @@
+/*-----------------------------------------------------------------------------
+|   Includes
++----------------------------------------------------------------------------*/
 #include "registro.h"
 #include "utils.h"
 #include "imprimir.h"
+
+/*-----------------------------------------------------------------------------
+|   Funciones
++----------------------------------------------------------------------------*/
 
 /*----------------------------------------------------------------------------
 |   Function Name: insertarusu
@@ -10,7 +17,6 @@
 |       - cedula: cédula del usuario a insertar
 |   Returns: void
 +---------------------------------------------------------------------------*/
-
 void insertarusu(char nombreusu[15], char cedula[15])
 {
     static int codigo = 0;
@@ -182,26 +188,26 @@ void insertarPedido(int cant, int pos, char nombreProd[15], int cantProd, float 
                 {
                     PEDIDOS *reco = vect;
                     while (reco->sig != NULL)
-                        reco = (PEDIDOS*)reco->sig;
-                    reco->sig = (struct PEDIDOS*)nuevo;
-                    nuevo->ant = (struct PEDIDOS*)reco;
+                        reco = (PEDIDOS *)reco->sig;
+                    reco->sig = (struct PEDIDOS *)nuevo;
+                    nuevo->ant = (struct PEDIDOS *)reco;
                 }
                 else
                 {
-                    PEDIDOS *reco = (PEDIDOS*)vect;
+                    PEDIDOS *reco = (PEDIDOS *)vect;
                     int f;
                     for (f = 1; f <= posi - 2; f++)
-                        reco = (PEDIDOS*)reco->sig;
-                    PEDIDOS *siguiente = (PEDIDOS*)reco->sig;
-                    reco->sig = (struct PEDIDOS*)nuevo;
-                    nuevo->ant = (struct PEDIDOS*)reco;
-                    nuevo->sig = (struct PEDIDOS*)siguiente;
-                    siguiente->ant = (struct PEDIDOS*)nuevo;
+                        reco = (PEDIDOS *)reco->sig;
+                    PEDIDOS *siguiente = (PEDIDOS *)reco->sig;
+                    reco->sig = (struct PEDIDOS *)nuevo;
+                    nuevo->ant = (struct PEDIDOS *)reco;
+                    nuevo->sig = (struct PEDIDOS *)siguiente;
+                    siguiente->ant = (struct PEDIDOS *)nuevo;
                 }
             }
         }
     }
-    printf("vect = %s",vect->nombreP);
+    printf("vect = %s", vect->nombreP);
 }
 
 /*-------------------------------------------------- ---------------------------
@@ -277,7 +283,7 @@ void registrarVenta()
         scanf("%c", &opcion);
     } while (opcion != 'n');
     i++;
-    printf("vectorPedidos[%d] = %s",i,vectorPedidos->nombreP);
+    printf("vectorPedidos[%d] = %s", i, vectorPedidos->nombreP);
     if (opcion == 'n')
         imprimirPediEspes(vectorPedidos);
 }

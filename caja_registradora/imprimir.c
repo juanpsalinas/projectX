@@ -1,4 +1,12 @@
+/*-----------------------------------------------------------------------------
+|   Includes
++----------------------------------------------------------------------------*/
 #include "imprimir.h"
+
+/*-----------------------------------------------------------------------------
+|   Funciones
++----------------------------------------------------------------------------*/
+
 /*----------------------------------------------------------------------------
 | Function Name: imprimirpro
 | Description: Imprime la lista de productos.
@@ -15,7 +23,7 @@ void imprimirpro()
         printf("\n<<<<<<<<<<  %s  >>>>>>>>>>>\n", reco->nombre);
         printf(" Codigo | Cantidad | Precio \n");
         printf("   %i\t     %i\t     %0.0f \n", reco->codigo, reco->cantidad, reco->precio);
-        reco = (PRODUCTOS*)reco->sig;
+        reco = (PRODUCTOS *)reco->sig;
     }
     printf("\n");
 }
@@ -35,7 +43,7 @@ void imprimirUsu()
         printf("<<<<<<<<<<  %s  >>>>>>>>>>>\n", recous->nombreUs);
         printf("\t<> Cedula : %s \n", recous->cedulaUs);
         printf("\t<> Codigo : %i \n\n", recous->codigoUsu);
-        recous = (USUARIOS*)recous->sig;
+        recous = (USUARIOS *)recous->sig;
     }
     printf("\n");
 }
@@ -82,7 +90,7 @@ void imprimirPedi(PEDIDOS *vectP[TAMANO])
         {
             printf("-> %s ..................%0.2f\n", reco->nombreP, reco->valorC);
             total += reco->valorC;
-            reco = (PEDIDOS*)reco->sig;
+            reco = (PEDIDOS *)reco->sig;
         }
 
         printf("                  ____________________\n");
