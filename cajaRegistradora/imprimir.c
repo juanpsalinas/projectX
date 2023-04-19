@@ -76,23 +76,33 @@ void imprimirPedi(PEDIDOS *vectP)
     PEDIDOS *reco = vectP;
     float total = 0;
 
-    while (reco != NULL)
-    {
-        printf("\n***************************************\n");
-        printf("  xxxxxxxxx  Pedido N*:%d  xxxxxxxxx\n", reco->codigoPedido);
-        printf("   --Fecha: %s--\n", reco->fecha);
-        imprimirUsuespe(reco->usuarioP);
 
-        total = 0;
-        do
-        {
-            printf("-> %s .................. %0.2f\n", reco->nombreP, reco->valorC);
+    RET band = RET_FAIL;
+
+
+    while (reco != NULL) {
+        if(band == RET_FAIL) {
+            total = 0;
+            printf("\n*************************************2\n");
+            printf(" xxxxxxxxxxx  Pedido N*:%d  xxxxxxxxxx\n", reco->codigoPedido);
+            printf("   --Fecha: %s--\n", reco->fecha);
+            imprimirUsuespe(reco->usuarioP);
+            band = RET_OK;
+        }
+        while(1){
+            printf("->\t%s ............%0.2f\n", reco->nombreP, reco->valorC);
             total += reco->valorC;
-        }while (reco->sig != NULL && reco->codigoPedido == reco->sig->codigoPedido);
+            if(reco->sig != NULL && reco->codigoPedido == reco->sig->codigoPedido)
+                reco = reco->sig;
+            else {
+                band = RET_FAIL;
+                break;
+            }
+        }
         printf("\t\t  ____________________\n");
         printf("\t\t\tTOTAL: %.2f\n", total);
-        printf("**************************************\n");
         reco = reco->sig;
+        printf("**************************************\n");
     }
 }
 
@@ -107,14 +117,18 @@ void imprimirPediEspes(PEDIDOS *vectEsps, int codigoPedido)
     //CLEAN//
     PEDIDOS *reco = vectEsps;
     float total = 0;
+    RET band = RET_FAIL;
+
     
-        {
-    printf("\n*************************************\n");
-    printf(" xxxxxxxxxxx  Pedido N*:%d  xxxxxxxxxx\n", reco->codigoPedido);
-    printf("   --Fecha: %s--\n", reco->fecha);
-    imprimirUsuespe(reco->usuarioP);
     while (reco != NULL) {
         if (codigoPedido == reco->codigoPedido) {
+            if(band == RET_FAIL) {
+                printf("\n*************************************\n");
+                printf(" xxxxxxxxxxx  Pedido N*:%d  xxxxxxxxxx\n", reco->codigoPedido);
+                printf("   --Fecha: %s--\n", reco->fecha);
+                imprimirUsuespe(reco->usuarioP);
+                band = RET_OK;
+            }
             printf("->\t%s ............%0.2f\n", reco->nombreP, reco->valorC);
             total += reco->valorC;
         }
@@ -122,5 +136,4 @@ void imprimirPediEspes(PEDIDOS *vectEsps, int codigoPedido)
     }
     printf("_____________________________________\n");
     printf(" \tTOTAL: .............%0.2f\n\n", total);
-    }
 }

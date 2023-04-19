@@ -20,8 +20,6 @@ RET existe(int x)
     PRODUCTOS *reco = raiz;
     while (reco != NULL)
     {
-        printf("x = %d\n", x);
-        printf("reco.codigo = %d\n", reco->codigo);
         if (reco->codigo == x)
             return RET_OK;
         reco = reco->sig;

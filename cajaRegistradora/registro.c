@@ -184,7 +184,6 @@ void registrarVenta(void)
 
     do
     {
-        printf("raiz1 = %d\n",raiz->sig->codigo);
         printf("-->Ingrese el codigo del producto: ");
         fflush(stdin);
         scanf("%d", &codigoVenta);
@@ -204,15 +203,12 @@ void registrarVenta(void)
 
         printf(" Cod: %d, Cant :%d  ", codigoVenta, cantidadp);
         if (descontarProducto(codigoVenta, cantidadp) == RET_OK){
-            printf("raiz2 = %d\n",raiz->sig->codigo);
             insertarPedido(i, nombre, cantidadp, valor);
-            printf("raiz3 = %d\n",raiz->sig->codigo);
         }
 
         fflush(stdin);
         printf("  Desea adquirir otro producto ? 's/n' \n");
         scanf("%c", &opcion);
-        printf("raiz4 = %d\n",raiz->sig->codigo);
     } while (opcion != 'n');
     if (opcion == 'n')
         imprimirPediEspes(vectorPedidos, i);
